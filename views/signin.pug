@@ -1,0 +1,16 @@
+extends layout
+block content
+    .form-container
+        form(action="/signin" method="POST")
+            h3 Sign In
+
+            label(for="email") email
+            input#email(type="text" name="email")
+
+            label(for="password") password
+            input#password(type="password" name="password")
+
+            input(type="submit", value="Sign In")
+
+            p didn't register yet?&nbsp;
+                a(href="/register") sign up
