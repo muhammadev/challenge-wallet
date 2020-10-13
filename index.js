@@ -38,9 +38,6 @@ app.set("view engine", "pug");
 // ------------GET Requests------------
 // get home
 app.get("/", auth, (req, res) => {
-    console.log("req.user", req.user);
-    if (!req.user) return res.redirect("/signin")
-
     res.render("home")
 })
 
