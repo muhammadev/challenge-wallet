@@ -15,3 +15,6 @@ Simply, you and your friends can register and start and new challenge, set deadl
 2. Set rules, deadline, and cost.
 3. Invite friends by @username.
 4. Done.
+
+### Routes
+1. "/create" gives the user the chance to create a new challenge

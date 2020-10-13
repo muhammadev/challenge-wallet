@@ -60,6 +60,11 @@ app.get("/logout", (req, res) => {
     res.redirect("/")
 })
 
+// get create
+app.get("/create", auth, (req, res) => {
+    res.send("hello")
+})
+
 // ------------POST Requests------------
 // POST register
 app.post("/register", [
