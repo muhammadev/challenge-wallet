@@ -1,21 +1,232 @@
 * {
-    margin: 0; padding:0;
+    margin:0; padding:0;
+    box-sizing: border-box;
 }
 
 html, body {
-    overflow-x: hidden;
     height: 100%;
 }
 
-#main_title {
+body {
+    background: #F0F2F5;
+    font-family: 'Montserrat', sans-serif;
+}
+
+header {
+    text-align: center;
+    padding: 20px;
+    padding-bottom: 40px;
+}
+
+header h1 {
+    font-family: 'Architects Daughter', cursive;
+}
+
+
+/* -------Classes API------- */
+
+.border {
+    border: 1px solid #CED0D4;
+    border-radius: 5px;
+}
+
+.box-border {
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px -1px #808080e3,
+                0px 0px 1px 0 #808080e3;
+}
+
+.badge {
+    background: #f1f1f1;
+    color: #333;
+    font-size: .8em;
+    padding: 2px 5px;
+    margin-left: 10px;
+}
+
+.btn-success {
+    background: yellowgreen;
+}
+.btn-ok {
+    background: rgb(255, 255, 67)
+}
+.btn-danger {
+    background: rgb(255, 70, 70);
+}
+
+/* -------END Classes API------- */
+
+.create-btn {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    width: 50px; height: 50px;
+    border-radius: 50% !important;
+    background: #fff;
+    cursor: pointer;
+}
+.create-btn:before {
+    content: "";
+    display: inline-block;
+    width: 2px; height: 40%;
+    background: #333;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+.create-btn:after {
+    content: "";
+    display: inline-block;
+    width: 2px; height: 40%;
+    background: #333;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.main-container {
+    min-height: 100%;
+    display: flex;
+    padding-bottom: 50px;
+}
+
+.main-container nav, .main-container aside {
+    flex-basis: 20%;
+}
+.main-container main {
+    flex-basis: 60%;
+}
+
+nav, aside {
+    position: fixed;
+    width: 15%;
+}
+
+nav {
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+nav h3, aside h3 {
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+nav > a {
     position: relative;
-    top: 25px; left: 50%;
+    padding: 10px;
+    margin-bottom: 10px;
+    color: #666;
+    text-decoration: none;
+    border-color: transparent !important;
+}
+nav > a:hover {
+    background: #fff;
+    color: #000;
+    border-color: #CED0D4 !important;
+    border-radius: 5px;
+}
+nav > a.active {
+    background: #fff;
+    color: #000;
+    border-color: #CED0D4 !important;
+    border-radius: 5px;
+    padding-left: 15px;
+}
+nav > a.active:before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top:0; left:0;
+    width: 5px; height: 100%;
+    background: yellowgreen;
+}
+
+.special-links {
+    position: fixed;
+    bottom: 50px;
+    display: flex;
+}
+.special-links a {
+    margin: 5px;
+    color: #000;
+}
+
+main {
+    margin: 0 auto;
+}
+
+.challenge {
+    margin: 0 auto;
+    padding: 15px;
+    margin-bottom: 10px;
+    width: 70%;
+    height: auto;
+    /* min-height: 200px; */
+    background: #fff;
+}
+
+.challenge .name {
+    margin-bottom: 5px;
+    font-size: 1.5em;
+}
+
+.challenge > span {
+    margin-left: 0 !important;
+    margin-right: 10px;
+}
+
+.challenge .rules {
+    font-size: 1.2em;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.rules h3 {
+    font-size: 1em;
+    margin-bottom: 5px;
+}
+
+.rules li {
+    margin: 15px 30px;
+}
+
+.options button{
+    width: 70px;
+    padding: 5px;
+    margin-right: 5px;
+    border: 1px solid;
+    cursor: pointer;
+}
+
+.options button:hover {
+    filter: brightness(0.9);
+}
+
+aside {
+    right: 20px;
+}
+
+aside ul li {
+    list-style: none;
+    background: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* ----------------END copied style---------------- */
+
+#main_title {
+    margin-top: 25px;
+    position: relative;
+    top: 0; left: 50%;
     transform: translateX(-50%);
     text-align: center;
 }
 
 a.logout {
-    position: absolute;
+    position: fixed;
     top: 15px;
     right: 15px;
 }
@@ -25,20 +236,32 @@ h1.welcome {
     margin-top: 150px;
 }
 
+span.info {
+    display: inline-block;
+    width: 15px; height: 15px;
+    border-radius: 50%;
+    background: black;
+    color: #fff;
+    text-align: center;
+    cursor: help;
+}
+
 /* ---------signin--AND--signup--------- */
 .form-container {
+    height: 100%;
     margin: 0 auto;
     display: grid;
     place-content: center;
     position: relative;
     top: 50%;
-    transform: translateY(-55%);
+    transform: translateY(-65%);
 }
 
 .form-container form {
-    width: 300px; height: auto;
+    min-width: 400px; height: auto;
+    background: #fff;
     padding: 70px 15px;
-    border: 1px solid;
+    /* border: 1px solid; */
     position: relative;
     display: flex;
     flex-direction: column;
@@ -76,10 +299,47 @@ h1.welcome {
     color: #000;
 }
 
+/* ---------create--------- */
+.create_container {
+    display: inline-block;
+    width: 50%;
+    background: #fff;
+    margin: 30px auto;
+    left: 50%;
+    position: relative;
+    transform: translateX(-50%);
+    padding: 20px;
+    margin-bottom: 50px;
+}
+
+.create_container h3 {
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+.new_challenge_form .input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.new_challenge_form input, .new_challenge_form textarea {
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.new_challenge_form input[type="submit"] {
+    border: 1px solid;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+    cursor: pointer;
+    padding: 10px 15px;
+}
+
 /* ---------footer--------- */
 footer {
     width: 100%;
-    position: fixed;
+    position: relative;
     bottom: 0;
     text-align: center;
     font-size: .8em;
@@ -94,4 +354,10 @@ footer span.heart {
 
 footer a {
     color: #ccc !important;
+}
+
+/* ----------my challenges---------- */
+
+.challenges {
+    height: 100%;
 }

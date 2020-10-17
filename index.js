@@ -8,9 +8,12 @@ const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 const {body, validationResult} = require("express-validator");
 const bcrypt = require("bcrypt");
-const register = require("./router/register");
 const auth = require("./middlewares/auth");
 const User = require("./models/User");
+const Challenge = require("./models/Challenge");
+const signup = require("./router/signup");
+const signin = require("./router/signin");
+const createChallenge = require("./router/createChallenge");
 
 // git config vars
 dotenv.config();
@@ -38,7 +41,13 @@ app.set("view engine", "pug");
 // ------------GET Requests------------
 // get home
 app.get("/", auth, (req, res) => {
-    res.render("home")
+    Challenge.find().then(challenges => {
+        res.render("home", {
+            challenges
+        })
+    }).catch(err => {
+        console.log(err);
+    })
 })
 
 // get signin
@@ -46,9 +55,9 @@ app.get("/signin", function(req, res) {
     res.render("signin")
 })
 
-// get register
-app.get("/register", function(req, res) {
-    res.render("register")
+// get signup
+app.get("/signup", function(req, res) {
+    res.render("signup")
 })
 
 // get logout
@@ -59,12 +68,42 @@ app.get("/logout", (req, res) => {
 
 // get create
 app.get("/create", auth, (req, res) => {
-    res.send("hello")
+    res.render("create")
+})
+
+// get my-challenges
+app.get("/my-challenges", auth, async function(req, res) {
+    const user = await User.findOne({email: req.user.email});
+    if (!user) {
+        console.log("error finding user", user, req.user);
+        return res.redirect("/signin");
+    }
+
+    Challenge.find({"creator": user.username})
+        .then(function(challenges) {
+            res.render("my-challenges", {
+                challenges
+            })
+        })
+        .catch(err => {
+            console.error("error searching challenges", err);
+            res.redirect("/")
+        })
+})
+
+// get wallet
+app.get("/wallet", auth, function(req, res) {
+    res.render("wallet")
+})
+
+// get dead challenges
+app.get("/dead-challenges", auth, function(req, res) {
+    res.render("dead")
 })
 
 // ------------POST Requests------------
-// POST register
-app.post("/register", [
+// POST signup
+app.post("/signup", [
     body("username")
         .notEmpty()
         .custom(val => {
@@ -89,37 +128,7 @@ app.post("/register", [
 
             return true
         })
-], (req, res) => {
-    const errs = validationResult(req);
-    if (!errs.isEmpty()) {
-        console.log("validatoin errors", errs)
-        return res.redirect("/register")
-    }
-
-    const {username, email, password} = req.body;
-
-    console.log({password});
-
-    bcrypt.hash(password, 10, (err, hash) => {
-        if (err) return console.log("error hashing password", err);
-
-        console.log({hash});
-
-        let user = new User({
-            username,
-            email,
-            password: hash
-        })
-
-        user.save(function(err, user) {
-            if (err) return console.log("err saving user", err);
-
-            console.log(user);
-
-            res.redirect("/");
-        })
-    })
-})
+], signup)
 
 // POST signin
 app.post("/signin", [
@@ -127,45 +136,43 @@ app.post("/signin", [
         .isEmail(),
     body("password")
         .notEmpty()
-], async (req, res) => {
-    const errs = validationResult(req);
-    if (!errs.isEmpty()) return console.error("validation errors", errs)
+], signin);
 
-    const {email, password} = req.body
+// POST create
+app.post("/create", auth, [
+    body("challenge_name")
+        .trim()
+        .notEmpty().withMessage("Challenge Name Should Not Be Empty"),
+    body("time_deadline")
+        .custom(val => {
+            if (val && val.length > 0) {
+                if (val) {
+                    let regex = /^\d+:\d+$/g;
+                    if (!regex.test(val)) throw new Error("Time Format Is Not Valid")
+    
+                    return true
+                }
+            }
 
-    const user = await User.findOne({email})
+            return true
+        }),
+    body("date_format")
+        .customSanitizer((val, {req}) => {
+            if (val) {
+                const is_daily = req.body.is_daily;
+    
+                if (is_daily) {
+                    val = null
+                }
+            }
+        }),
+    body("cost")
+        .isNumeric().withMessage("Cost Must Be A Number"),
+    body("rules")
+        .trim()
+        .notEmpty().withMessage("Please Set Some Rules")
+], createChallenge)
 
-    if (!user) {
-        console.log("user not found")
-        return res.redirect("/signin")
-    }
-
-    bcrypt.compare(password, user.password, (err, result) => {
-        if (err) {
-            console.error("error comparing passwords", err);
-            return res.redirect("/signin")
-        }
-
-        console.log(result);
-
-        if (!result) {
-            console.log("password is not correct");
-            return res.redirect("/signin")
-        }
-
-        const token = jwt.sign({email}, process.env.TOKEN_SECRET)
-        res.cookie("token", token, {httpOnly: true})
-        console.log("***my cookies***", req.cookies.token);
-        res.redirect("/")
-    })
-
-    const token = jwt.sign({email: email}, process.env.TOKEN_SECRET)
-    res.cookie("token", token, {httpOnly: true})
-
-
-
-})
-
-// listen to port
+// -----------------listen to port-----------------
 const port = process.env.PORT || 8000
 app.listen(port, console.log("connected to", port))

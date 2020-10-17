@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Challenge Wallet Front</title>
+</head>
+<body>
+    <header>
+        <h1>Challenge Wallet</h1>
+    </header>
+    <div class="container">
+        <nav>
+            <h3>Menu</h3>
+            <a href="/" class="active border">Home</a>
+            <a href="/wallet" class="border">my wallet</a>
+            <a href="/challenges" class="border">my challenges</a>
+            <a href="/dead-challenges" class="border">dead challenges</a>
+            <div class="special-links">
+                <a href="/report">report</a>
+                <a href="/suggest">suggest</a>
+            </div>
+        </nav>
+        <main>
+            <div class="challenge box-border">
+                <h3 class="name">Run Everyday</h3>
+                <span><small>by John Snow</small></span> <span class="badge border">daily</span> <span class="time_deadline badge border">6 Am</span> <span class="cost badge border">1$</span>
+                <div class="rules border">
+                    <h3>Rules</h3>
+                    <ul>
+                        <li>You'll have to run each and everyday at 6 am.</li>
+                        <li>If you passed a day you'll pay 1$.</li>
+                        <li>At the end of every month, the money collected by everyone will go to a charity.</li>
+                        <li>If you have a lot of money that 1$ is very easy to pay than to run everyday, then we encourage you to set a bigger cost to push yourself to run.</li>
+                    </ul>
+                </div>
+                <div class="options">
+                    <button class="btn-success border">Join</button>
+                    <button class="btn-ok border">Later</button>
+                    <button class="btn-danger border">Hide</button>
+                </div>
+            </div>
+            <div class="challenge box-border">
+                <h3 class="name">Code Daily</h3>
+                <span><small>by Emilia Clark</small></span> <span class="badge border">daily</span> <span class="time_deadline badge border">9 Am</span> <span class="cost badge border">5$</span>
+                <div class="rules border">
+                    <h3>Rules</h3>
+                    <ul>
+                        <li>You'll have to practice code each and everyday at 9 am.</li>
+                        <li>If you passed a day you'll pay 5$.</li>
+                        <li>At the end of every month, the money collected by everyone will go to a charity.</li>
+                        <li>If you have a lot of money that 5$ is very easy to pay than to practice code everyday, then we encourage you to set a bigger cost to push yourself to code.</li>
+                    </ul>
+                </div>
+                <div class="options">
+                    <button class="btn-success border">Join</button>
+                    <button class="btn-ok border">Later</button>
+                    <button class="btn-danger border">Hide</button>
+                </div>
+            </div>
+        </main>
+        <aside>
+            <h3>Upcoming Deadlines</h3>
+            <ul>
+                <li class="border">
+                    <strong>Run Everyday</strong>
+                    <br>
+                    <br>
+                    <p>coming in <span class="left_time">14</span> hours</p>
+                </li>
+                <li class="border">
+                    <strong>Code Daily</strong>
+                    <br>
+                    <br>
+                    <p>coming in <span class="left_time">5</span> hours</p>
+                </li>
+            </ul>
+        </aside>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

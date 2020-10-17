@@ -1,0 +1,28 @@
+extends layout
+block content
+    if challenges && challenges.length > 0
+        h3(style="text-align: center") Your Challenges
+        br
+        br
+        .challenges
+            each challenge in challenges
+                .challenge.box-border
+                    h3.name #{challenge.challenge_name}
+                    span
+                        small by #{challenge.creator}
+                    span.badge.border
+                        if challenge.is_daily
+                            | daily
+                        else
+                            | dated
+                    span.time_deadline.badge.border #{challenge.deadline}
+                    span.cost.badge.border #{challenge.cost}$
+                    .rules.border
+                        h3 Rules
+                        p #{challenge.rules}
+                    .options
+                        button.btn-ok.border Edit
+                        button.btn-danger.border Delete
+    else
+        p you haven't created any challenges yet
+        a(href="/create") create one now

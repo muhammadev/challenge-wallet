@@ -19,7 +19,6 @@ function auth(req, res, next) {
                 res.redirect("/signin")
             }
             const user = await User.findOne({email: verifiedToken.email})
-            console.log("db user", user);
 
             if (!user) {
                 console.error("error finding user", verifiedToken, user);

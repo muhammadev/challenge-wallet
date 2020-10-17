@@ -1,0 +1,164 @@
+* {
+    margin:0; padding:0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #F0F2F5;
+}
+
+header {
+    text-align: center;
+    padding: 20px;
+    padding-bottom: 40px;
+}
+
+
+/* -------Classes API------- */
+
+.border {
+    border: 1px solid #CED0D4;
+    border-radius: 5px;
+}
+
+.box-border {
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px -2px #999999ca,
+                0px 0px 1px 0 #999999ca;
+}
+
+.badge {
+    background: #f1f1f1;
+    color: #333;
+    font-size: .8em;
+    padding: 2px 5px;
+    margin-left: 10px;
+}
+
+/* -------END Classes API------- */
+
+.container {
+    display: flex;
+}
+
+.container nav, .container aside {
+    flex-basis: 20%;
+}
+.container main {
+    flex-basis: 60%;
+}
+
+nav, aside {
+    position: fixed;
+    width: 15%;
+}
+
+nav {
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+nav h3, aside h3 {
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+nav > a {
+    padding: 10px;
+    margin-bottom: 10px;
+    color: #000;
+    text-decoration: none;
+    border-color: transparent !important;
+}
+nav > a:hover {
+    background: #fff;
+    border-color: #CED0D4 !important;
+    border-radius: 5px;
+}
+nav > a.active {
+    background: #fff;
+    border-color: #CED0D4 !important;
+    border-radius: 5px;
+}
+
+.special-links {
+    position: fixed;
+    bottom: 20px;
+    display: flex;
+}
+.special-links a {
+    margin: 5px;
+    color: #000;
+}
+
+main {
+    margin: 0 auto;
+}
+
+.challenge {
+    margin: 0 auto;
+    padding: 15px;
+    margin-bottom: 10px;
+    width: 70%;
+    height: auto;
+    /* min-height: 200px; */
+    background: #fff;
+}
+
+.challenge .name {
+    margin-bottom: 5px;
+    font-size: 1.5em;
+}
+
+.challenge > span {
+    margin-left: 0 !important;
+    margin-right: 10px;
+}
+
+.challenge .rules {
+    font-size: 1.2em;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.rules h3 {
+    font-size: 1em;
+    margin-bottom: 5px;
+}
+
+.rules li {
+    margin: 15px 30px;
+}
+
+.options button{
+    width: 70px;
+    padding: 5px;
+    border: 1px solid;
+    cursor: pointer;
+}
+
+.options button:hover {
+    filter: brightness(0.9);
+}
+
+.btn-success {
+    background: yellowgreen;
+}
+.btn-ok {
+    background: rgb(255, 255, 67)
+}
+.btn-danger {
+    background: rgb(255, 70, 70);
+}
+
+aside {
+    right: 20px;
+}
+
+aside ul li {
+    list-style: none;
+    background: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+}

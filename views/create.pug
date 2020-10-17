@@ -1,0 +1,40 @@
+extends layout
+block content
+    .create_container.box-border
+        h3 Create New Challenge
+
+        if errs && errs.length > 0
+            each err, i in errs
+                p.err #{err.param}: #{err.msg}
+
+        form.new_challenge_form(action="/create" method="POST")
+            .input-group
+                label(for="challenge_name") Challenge Name:
+                input#challenge_name(type="text" name="challenge_name" required)
+
+            .input-group
+                lebel(for="deadline") Deadline: 
+                input#deadline(type="time" name="deadline")
+
+            .input-group
+                div
+                    label(for="days") How Many Days: 
+                    //- span.info i
+                input#days(type="number" name="days" value="30")
+                .checkbox-group
+                    input#challenge_type(type="checkbox", name="is_daily")
+                    label(for="challenge_type") &nbsp;daily challenge.
+
+            .input-group
+                label(for="cost") Challenge cost: (in egp)
+                input#cost(type="number" name="cost" required)
+
+            .input-group
+                label(for="rules") Rules: 
+                textarea#rules(name="rules", cols="30", rows="15" required)
+
+            input.btn-success.border(type="submit", value="Set Challenge")
+
+            //- p
+            //-     span.info i
+            //-     | &nbsp;How Many Days option means how many days this challenge will be active, that means that the challenge will run everyday at the deadline and see who done the challenge and who not and cost will be collected from each one didn't do it.
