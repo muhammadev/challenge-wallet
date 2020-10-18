@@ -4,6 +4,10 @@ block content
         form.box-border(action="/signin" method="POST")
             h3 Sign In
 
+            if errs && errs.length > 0
+                each err, i in errs
+                    p.err #{err.param}: #{err.msg}
+
             label(for="email") email
             input#email(type="text" name="email")
 
@@ -13,4 +17,4 @@ block content
             input(type="submit", value="Sign In")
 
             p didn't register yet?&nbsp;
-                a(href="/register") sign up
+                a(href="/signup") sign up

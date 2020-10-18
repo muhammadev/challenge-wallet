@@ -33,6 +33,11 @@ block content
                 label(for="rules") Rules: 
                 textarea#rules(name="rules", cols="30", rows="15" required)
 
+            .input-group
+                .checkbox-group
+                    input#state(type="checkbox" name="status" required)
+                    label(for="state" title="challenges are global by default, check this checkbox to set as private") &nbsp;private challenge.
+
             input.btn-success.border(type="submit", value="Set Challenge")
 
             //- p

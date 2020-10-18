@@ -1,8 +1,12 @@
 extends layout
 block content
     .form-container
-        form.box-border(action="/register", method="POST")
+        form.box-border(action="/signup", method="POST")
             h3 Sign Up
+
+            if errs && errs.length > 0
+                each err, i in errs
+                    p.err #{err.param}: #{err.msg}
 
             label(for="username") username
             input#username(type="text", name="username")

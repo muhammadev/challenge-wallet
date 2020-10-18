@@ -8,7 +8,7 @@ html, body {
 }
 
 body {
-    background: #F0F2F5;
+    background: #f5f6f8;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -24,6 +24,15 @@ header h1 {
 
 
 /* -------Classes API------- */
+
+.err {
+    padding: 5px;
+    background: rgb(255, 170, 170);
+    border: 1px solid rgb(148, 28, 28);
+    border-radius: 2px;
+    font-size: .8em;
+    margin-bottom: 10px !important;
+}
 
 .border {
     border: 1px solid #CED0D4;
@@ -46,6 +55,10 @@ header h1 {
 
 .btn-success {
     background: yellowgreen;
+    color: #000 !important;
+    padding: 5px 20px !important;
+    text-decoration: none;
+    font-size: .8em;
 }
 .btn-ok {
     background: rgb(255, 255, 67)
@@ -117,21 +130,15 @@ nav > a {
     position: relative;
     padding: 10px;
     margin-bottom: 10px;
-    color: #666;
+    color: #999;
     text-decoration: none;
     border-color: transparent !important;
 }
 nav > a:hover {
-    background: #fff;
     color: #000;
-    border-color: #CED0D4 !important;
-    border-radius: 5px;
 }
 nav > a.active {
-    background: #fff;
     color: #000;
-    border-color: #CED0D4 !important;
-    border-radius: 5px;
     padding-left: 15px;
 }
 nav > a.active:before {
@@ -192,7 +199,7 @@ main {
     margin: 15px 30px;
 }
 
-.options button{
+.options > *{
     width: 70px;
     padding: 5px;
     margin-right: 5px;
@@ -200,7 +207,7 @@ main {
     cursor: pointer;
 }
 
-.options button:hover {
+.options > *:hover {
     filter: brightness(0.9);
 }
 

@@ -1,11 +1,22 @@
 const bcrypt = require("bcrypt");
-const User = require("../models/User");
+const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
-const {validationResult} = require("express-validator");
+const {body, validationResult} = require("express-validator");
+
+const validate = [
+    body("email")
+        .isEmail(),
+    body("password")
+        .notEmpty()
+]
 
 async function signin(req, res) {
     const errs = validationResult(req);
-    if (!errs.isEmpty()) return console.error("validation errors", errs)
+    if (!errs.isEmpty()) {
+        console.error("validation errors", errs)
+        res.locals.errs = errs.errors
+        return res.render("signin")
+    }
 
     const {email, password} = req.body
 
@@ -39,4 +50,5 @@ async function signin(req, res) {
     res.cookie("token", token, {httpOnly: true, secure: true})
 }
 
-module.exports = signin
+module.exports.validate = validate
+module.exports.signin = signin

@@ -5,15 +5,12 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const jwt = require("jsonwebtoken");
-const {body, validationResult} = require("express-validator");
-const bcrypt = require("bcrypt");
 const auth = require("./middlewares/auth");
-const User = require("./models/User");
 const Challenge = require("./models/Challenge");
-const signup = require("./router/signup");
-const signin = require("./router/signin");
-const createChallenge = require("./router/createChallenge");
+const signup = require("./router/post/signup");
+const signin = require("./router/post/signin");
+const createChallenge = require("./router/post/createChallenge");
+const get_challenges = require("./router/get/get_challenges");
 
 // git config vars
 dotenv.config();
@@ -72,24 +69,12 @@ app.get("/create", auth, (req, res) => {
 })
 
 // get my-challenges
-app.get("/my-challenges", auth, async function(req, res) {
-    const user = await User.findOne({email: req.user.email});
-    if (!user) {
-        console.log("error finding user", user, req.user);
-        return res.redirect("/signin");
-    }
+app.get("/my-challenges", auth, get_challenges)
 
-    Challenge.find({"creator": user.username})
-        .then(function(challenges) {
-            res.render("my-challenges", {
-                challenges
-            })
-        })
-        .catch(err => {
-            console.error("error searching challenges", err);
-            res.redirect("/")
-        })
-})
+// // get challenge/:id
+// app.get("/challenge/:id", role, function(req, res) {
+
+// })
 
 // get wallet
 app.get("/wallet", auth, function(req, res) {
@@ -103,75 +88,13 @@ app.get("/dead-challenges", auth, function(req, res) {
 
 // ------------POST Requests------------
 // POST signup
-app.post("/signup", [
-    body("username")
-        .notEmpty()
-        .custom(val => {
-            if (/^[0-9]/g.test(val)) throw new Error("username should not begin with numbers")
-
-            return true
-        }),
-    body("email")
-        .isEmail()
-        .custom(val => {
-            return User.findOne({email: val}).then(user => {
-                if (user) return Promise.reject("Email already in use")
-            })
-        }),
-
-    body("password")
-        .custom((val, {req}) => {
-            const confirmation = req.body.confirm_password;
-            if (val !== confirmation) {
-                throw new Error("Password confirmation doesn't match password")
-            }
-
-            return true
-        })
-], signup)
+app.post("/signup", [...signup.validate], signup.signup)
 
 // POST signin
-app.post("/signin", [
-    body("email")
-        .isEmail(),
-    body("password")
-        .notEmpty()
-], signin);
+app.post("/signin", [...signin.validate], signin.signin);
 
 // POST create
-app.post("/create", auth, [
-    body("challenge_name")
-        .trim()
-        .notEmpty().withMessage("Challenge Name Should Not Be Empty"),
-    body("time_deadline")
-        .custom(val => {
-            if (val && val.length > 0) {
-                if (val) {
-                    let regex = /^\d+:\d+$/g;
-                    if (!regex.test(val)) throw new Error("Time Format Is Not Valid")
-    
-                    return true
-                }
-            }
-
-            return true
-        }),
-    body("date_format")
-        .customSanitizer((val, {req}) => {
-            if (val) {
-                const is_daily = req.body.is_daily;
-    
-                if (is_daily) {
-                    val = null
-                }
-            }
-        }),
-    body("cost")
-        .isNumeric().withMessage("Cost Must Be A Number"),
-    body("rules")
-        .trim()
-        .notEmpty().withMessage("Please Set Some Rules")
-], createChallenge)
+app.post("/create", auth, [...createChallenge.validate], createChallenge.create)
 
 // -----------------listen to port-----------------
 const port = process.env.PORT || 8000

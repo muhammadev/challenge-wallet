@@ -23,13 +23,17 @@ block content
                                 | daily
                             else
                                 | dated
-                        span.time_deadline.badge.border #{challenge.deadline}
+                        - var h = challenge.deadline.split(":")[0]; //- hours in deadline
+                        - var m = challenge.deadline.split(":")[1]; //- minutes in deadline
+                        - var timeState = Number(h) >= 12 ? "pm" : "am";
+                        - h = Number(h) > 12 ? Number(h) - 12 : h;
+                        span.time_deadline.badge.border #{`${h}:${m} ${timeState}`}
                         span.cost.badge.border #{challenge.cost}$
                         .rules.border
                             h3 Rules
                             p #{challenge.rules}
                         .options
-                            button.btn-success.border Join
+                            a(href="/challenge/"+challenge._id).btn-success.border Join
                             button.btn-ok.border Later
                             button.btn-danger.border Hide
             else
@@ -45,7 +49,7 @@ block content
                             br
                             p
                                 | time left: 
-                                span.left_time(data-deadline=challenge.deadline)
-                                |  h
+                                small
+                                    span.left_time(data-deadline=challenge.deadline)
     a(href="/create").create-btn.box-border
     include footer

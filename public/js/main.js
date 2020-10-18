@@ -32,7 +32,13 @@ function updateDeadlines() {
             currMnts = date.getMinutes(),
             hour = Number(left_time_value.split(":")[0]),
             mnts = Number(left_time_value.split(":")[1]),
-            leftTime = `${hour - currHs < 0 ? (hour - currHs) + 24 : hour - currHs}:${mnts - currMnts < 0? (mnts - currMnts) + 60 : mnts - currMnts}`;
+            leftTime = `${(hour - currHs <= 0 ? (hour - currHs) + 24 : hour - currHs) - 1}:${mnts - currMnts <= 0? (mnts - currMnts) + 60 : mnts - currMnts}`;
+
+            console.log(hour, mnts, currHs, currMnts);
+
+            if ((hour - currHs === 0) && (mnts - currMnts === 0)) {
+                leftTime = "NOW"
+            }
 
         time.innerHTML = leftTime
     })
