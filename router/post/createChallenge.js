@@ -78,13 +78,18 @@ async function create(req, res) {
 
     let challenge = new Challenge(schema)
 
-    challenge.save(function(err, data) {
+    challenge.save(async function(err, data) {
         if (err) {
             console.error("error saving challenge to db", err);
             return res.redirect("/create")
         }
 
         console.log(data);
+
+        let challengeId = data._id;
+        user.challenges[challengeId] = "owner"
+        let updated = await user.save()
+        console.log({challengeId}, {updated});
 
         res.redirect("/")
     })

@@ -3,10 +3,10 @@ block content
     .main-container
         nav
             h3 Menu
-            a.active.border(href='/') Home
-            a.border(href='/wallet') my wallet
-            a.border(href='/my-challenges') my challenges
-            a.border(href='/dead-challenges') dead challenges
+            a.active(href='/') Home
+            a(href='/wallet') my wallet
+            a(href='/my-challenges') my challenges
+            a(href='/dead-challenges') dead challenges
             .special-links
                 a(href='/report') report
                 |                 
@@ -33,7 +33,7 @@ block content
                             h3 Rules
                             p #{challenge.rules}
                         .options
-                            a(href="/challenge/"+challenge._id).btn-success.border Join
+                            button(data-id=challenge._id)#join-btn.btn-success.border Join
                             button.btn-ok.border Later
                             button.btn-danger.border Hide
             else
@@ -49,7 +49,9 @@ block content
                             br
                             p
                                 | time left: 
-                                small
-                                    span.left_time(data-deadline=challenge.deadline)
+                                span.left_time(data-deadline=challenge.deadline)
     a(href="/create").create-btn.box-border
-    include footer
+
+    footer
+        a(href='https://muhammadev.surge.sh') created by this man
+    script(src="/js/home.js")

@@ -24,7 +24,10 @@ async function signin(req, res) {
 
     if (!user) {
         console.log("user not found")
-        return res.redirect("/signin")
+        res.locals.errs = [{
+            param: "user not found"
+        }]
+        return res.render("signin")
     }
 
     bcrypt.compare(password, user.password, (err, result) => {

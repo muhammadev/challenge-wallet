@@ -11,6 +11,7 @@ const signup = require("./router/post/signup");
 const signin = require("./router/post/signin");
 const createChallenge = require("./router/post/createChallenge");
 const get_challenges = require("./router/get/get_challenges");
+const User = require("./models/User");
 
 // git config vars
 dotenv.config();
@@ -39,8 +40,19 @@ app.set("view engine", "pug");
 // get home
 app.get("/", auth, (req, res) => {
     Challenge.find().then(challenges => {
-        res.render("home", {
-            challenges
+        let getCreators = new Promise((resolve, reject) => {
+            challenges.forEach((challenge, i) => {
+                User.findOne({_id: challenge.creator})
+                .then(user => {
+                    challenge.creator = user.username
+                    if (i == challenges.length - 1) resolve()
+                })
+            })
+        })
+        getCreators.then(() => {
+            res.render("home", {
+                challenges
+            })
         })
     }).catch(err => {
         console.log(err);
@@ -95,6 +107,32 @@ app.post("/signin", [...signin.validate], signin.signin);
 
 // POST create
 app.post("/create", auth, [...createChallenge.validate], createChallenge.create)
+
+// ------------PUT Requests------------
+app.put("/join/:id", auth, async (req, res) => {
+    const user = await User.findOne({email: req.user.email});
+    const challenge = await Challenge.findOne({_id: req.params.id});
+    if (!user) {
+        console.log(user, "user not found");
+        return res.status(401).send("Unauthorized request")
+    }
+    if (!challenge) {
+        console.log("challenge not found", challenge);
+        return res.status(400).send()
+    }
+
+    let challengeId = req.params.id;
+    let userId = user._id;
+
+    // update both user and challenge models
+    challenge.participants[userId] = "participant";
+    user.challenges[challengeId] = "participant";
+    const updatedChallenge = await challenge.save();
+    const updatedUser = await user.save();
+    console.log(updatedChallenge, updatedUser);
+
+    res.status(200).send();
+})
 
 // -----------------listen to port-----------------
 const port = process.env.PORT || 8000

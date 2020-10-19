@@ -35,7 +35,7 @@ block content
 
             .input-group
                 .checkbox-group
-                    input#state(type="checkbox" name="status" required)
+                    input#state(type="checkbox" name="status")
                     label(for="state" title="challenges are global by default, check this checkbox to set as private") &nbsp;private challenge.
 
             input.btn-success.border(type="submit", value="Set Challenge")
@@ -43,3 +43,5 @@ block content
             //- p
             //-     span.info i
             //-     | &nbsp;How Many Days option means how many days this challenge will be active, that means that the challenge will run everyday at the deadline and see who done the challenge and who not and cost will be collected from each one didn't do it.
+    
+    script(src="/js/create.js")

@@ -10,6 +10,8 @@ async function get_challenges(req, res) {
 
     Challenge.find({"creator": user.username})
         .then(function(challenges) {
+            challenges.creator = user.username
+            console.log(user.username, challenges.creator)
             res.render("my-challenges", {
                 challenges
             })

@@ -11,18 +11,23 @@ function auth(req, res, next) {
     const token = req.cookies.token;
     if (!token) {
         req.user = null
-        res.redirect("/signin")
+        console.log("to token found");
+        return res.redirect("/signin")
     } else {
         jwt.verify(token, process.env.TOKEN_SECRET, async (err, verifiedToken) => {
             if (err) {
                 console.error("invalid token", token, err);
-                res.redirect("/signin")
+                return res.redirect("/signin")
             }
             const user = await User.findOne({email: verifiedToken.email})
 
             if (!user) {
                 console.error("error finding user", verifiedToken, user);
-                return res.redirect("/")
+                res.locals.errs = [{
+                    param: "something went wrong",
+                    msg: "please login again"
+                }]
+                return res.render("signin")
             }
     
             res.locals.verified = true

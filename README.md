@@ -41,3 +41,9 @@ Simply, you and your friends can register and start and new challenge, set deadl
 - when regular user join a challenge, then his db is updated to state that he is participating in that challenge and the cost start to be collected by deadlines.
 
 - when a user recieves an invitation, he must accept first to join the challenge and the cost start to be collected.
+
+- Action Schema
+    user >> join >> {
+        challenge >> [UPDATED] >> participants : {..., userId: "participant"},
+        user >> [UPDATED] >> challenges : {..., challengeId: "participant"}
+    }

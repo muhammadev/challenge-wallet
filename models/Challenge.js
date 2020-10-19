@@ -37,7 +37,10 @@ const challengeSchema = new mongoose.Schema({
         default: Date.now()
     },
     participants: {
-        type: Object
+        type: Object,
+        default: {
+            creator: "owner"
+        }
     }
 })
 
